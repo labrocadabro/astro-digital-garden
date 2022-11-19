@@ -1,0 +1,32 @@
+---
+export async function getStaticPaths() {
+  function getDir(str: string) {
+    return str.replace(/^\.\/(.*)\/.*\.md$/, "$1");
+  }
+  const categories = Object.keys(import.meta.glob("./**/*.md")).map(getDir);
+  const notes = await Astro.glob("./**/*.md");
+  return categories.map((category) => ({
+    params: {
+      slug: category,
+    },
+    props: {
+      notes: notes.filter((note) => {
+        return note.url!.includes(`/${category}/`);
+      }),
+    },
+  }));
+}
+const { notes } = Astro.props;
+console.log(notes);
+---
+
+<h1>test</h1>
+<ul>
+  {
+    notes.map((note: any) => (
+      <li>
+        <a href={note.url}>{note.frontmatter.title}</a>
+      </li>
+    ))
+  }
+</ul>
