@@ -1,5 +1,5 @@
 export function buildTree(paths) {
-  let urls = paths.map((p) => p.url.split("/").slice(2));
+  let urls = paths.map((p) => p.url.split("/").slice(1));
   const tree = { files: [] };
   let currentDir = tree;
   for (let urlParts of urls) {
