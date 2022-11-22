@@ -1,20 +1,38 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { buildTree } from "./buildCategoryTree.js";
+
 export async function getStaticPaths() {
+  function endsWithAny(str: string, suffixes: string[]) {
+    return suffixes.some(function (suffix) {
+      return str.endsWith(suffix);
+    });
+  }
   function getDir(str: string) {
     return str.replace(/^\.\/(.*)\/.*\.md$/, "$1");
   }
-  const categories = Object.keys(import.meta.glob("./**/*.md")).map(getDir);
-  console.log(categories);
   const notes = await Astro.glob(`./**/*.md`);
+  const categories = notes.map((p) => p.url!.split("/").slice(2, -1));
+  const tree = buildTree(notes);
+  console.log(tree);
 
-  return categories.map((category) => {
+  return categories.map((c) => {
+    let dir: any = tree;
+    c.forEach((part) => {
+      dir = dir[part];
+    });
+    const files = dir.files;
+    const subDirs = Object.keys(dir).filter((d) => d !== "files");
+    console.log(dir, files, subDirs);
+    const category = c.join("/");
+    console.log(category);
     return {
       params: {
-        slug: category,
+        slug: c.join("/"),
       },
       props: {
-        notes: notes.filter((note) => note.url!.includes(category)),
+        notes: notes.filter((note) => endsWithAny(note.url!, files)),
+        subDirs,
         title: category
           .split("-")
           .map((word) => word[0].toUpperCase() + word.slice(1))
@@ -23,8 +41,7 @@ export async function getStaticPaths() {
     };
   });
 }
-const { notes, title } = Astro.props;
-console.log(notes[0].url);
+const { notes, subDirs, title } = Astro.props;
 ---
 
 <Layout title={title}>
@@ -34,6 +51,20 @@ console.log(notes[0].url);
       notes.map((note: any) => (
         <li>
           <a href={note.url}>{note.frontmatter.title}</a>
+        </li>
+      ))
+    }
+  </ul>
+  <ul>
+    {
+      subDirs.map((sd: string) => (
+        <li>
+          <a href={sd}>
+            {sd
+              .split("-")
+              .map((word) => word[0].toUpperCase() + word.slice(1))
+              .join(" ")}
+          </a>
         </li>
       ))
     }
