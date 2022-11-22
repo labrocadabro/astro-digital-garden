@@ -14,7 +14,6 @@ export async function getStaticPaths() {
   const notes = await Astro.glob(`./**/*.md`);
   const categories = notes.map((p) => p.url!.split("/").slice(1, -1));
   const tree = buildTree(notes);
-  console.log(tree);
 
   return categories.map((c) => {
     let dir: any = tree;
@@ -23,7 +22,6 @@ export async function getStaticPaths() {
     });
     const files = dir.files;
     const subDirs = Object.keys(dir).filter((d) => d !== "files");
-    console.log(dir, files, subDirs);
     const category = c.join("/");
     return {
       params: {
