@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { buildTree } from "./buildCategoryTree.js";
+import { buildTree } from "../utils/buildCategoryTree";
 
 export async function getStaticPaths() {
   function endsWithAny(str: string, suffixes: string[]) {
