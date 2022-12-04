@@ -1,8 +1,6 @@
 ---
-title: Resources
+title: Anki
 layout: /src/layouts/NoteLayout.astro
 ---
 
-# Resources
-
-Some resources.
+# Anki

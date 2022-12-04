@@ -3,74 +3,71 @@ import Layout from "../layouts/Layout.astro";
 import { buildTree } from "../utils/buildCategoryTree";
 
 export async function getStaticPaths() {
-  function endsWithAny(str: string, suffixes: string[]) {
-    return suffixes.some(function (suffix) {
-      return str.endsWith(suffix);
-    });
-  }
-  function getDir(str: string) {
-    return str.replace(/^\.\/(.*)\/.*\.md$/, "$1");
-  }
-  const notes = await Astro.glob(`./**/*.md`);
-  const categories = notes.map((p) => p.url!.split("/").slice(1, -1));
-  const tree = buildTree(notes);
+	function endsWithAny(str: string, suffixes: string[]) {
+		return suffixes.some(function (suffix) {
+			return str.endsWith(suffix);
+		});
+	}
+	const notes = await Astro.glob(`./**/*.md`);
+	const categories = notes.map((p) => p.url!.split("/").slice(1, -1));
+	const tree = buildTree(notes);
 
-  return categories.map((c) => {
-    let dir: any = tree;
-    c.forEach((part) => {
-      dir = dir[part];
-    });
-    const files = dir.files;
-    const subDirs = Object.keys(dir).filter((d) => d !== "files");
-    const category = c.join("/");
-    return {
-      params: {
-        slug: category,
-      },
-      props: {
-        notes: notes.filter((note) => endsWithAny(note.url!, files)),
-        subDirs,
-        title: c
-          .at(-1)!
-          .split("-")
-          .map((word) => word[0].toUpperCase() + word.slice(1))
-          .join(" "),
-      },
-    };
-  });
+	return categories.map((c) => {
+		let dir: any = tree;
+		c.forEach((part) => {
+			dir = dir[part];
+		});
+		const files = dir.files;
+		const subDirs = Object.keys(dir).filter((d) => d !== "files");
+		const category = c.join("/");
+		return {
+			params: {
+				slug: category,
+			},
+			props: {
+				notes: notes.filter((note) => endsWithAny(note.url!, files)),
+				subDirs,
+				title: c
+					.at(-1)!
+					.split("-")
+					.map((word) => word[0].toUpperCase() + word.slice(1))
+					.join(" "),
+			},
+		};
+	});
 }
 const { notes, subDirs, title } = Astro.props;
 ---
 
 <Layout title={title}>
-  <h1>{title}</h1>
-  <h2>Notes</h2>
-  <ul>
-    {
-      notes.map((note: any) => (
-        <li>
-          <a href={note.url}>{note.frontmatter.title}</a>
-        </li>
-      ))
-    }
-  </ul>
-  {
-    !!subDirs.length && (
-      <>
-        <h2>Subcategories</h2>
-        <ul>
-          {subDirs.map((sd: string) => (
-            <li>
-              <a href={`./${sd}`}>
-                {sd
-                  .split("-")
-                  .map((word) => word[0].toUpperCase() + word.slice(1))
-                  .join(" ")}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </>
-    )
-  }
+	<h1>{title}</h1>
+	<h2>Notes</h2>
+	<ul>
+		{
+			notes.map((note: any) => (
+				<li>
+					<a href={note.url}>{note.frontmatter.title}</a>
+				</li>
+			))
+		}
+	</ul>
+	{
+		!!subDirs.length && (
+			<>
+				<h2>Subcategories</h2>
+				<ul>
+					{subDirs.map((sd: string) => (
+						<li>
+							<a href={`./${sd}`}>
+								{sd
+									.split("-")
+									.map((word) => word[0].toUpperCase() + word.slice(1))
+									.join(" ")}
+							</a>
+						</li>
+					))}
+				</ul>
+			</>
+		)
+	}
 </Layout>

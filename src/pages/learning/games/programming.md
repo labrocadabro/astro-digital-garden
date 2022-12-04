@@ -1,8 +1,6 @@
 ---
-title: Resources
+title: programming
 layout: /src/layouts/NoteLayout.astro
 ---
 
-# Resources
-
-Some resources.
+# Programming

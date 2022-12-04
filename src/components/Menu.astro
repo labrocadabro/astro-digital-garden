@@ -1,0 +1,15 @@
+---
+import Folder from "./Folder.svelte";
+import { buildTree2 } from "../utils/buildCategoryTree2";
+
+const notes = await Astro.glob(`../pages/**/*.md`);
+const tree = buildTree2(notes);
+---
+
+<Folder name="Home" path="/" files={tree} expanded={true} client:load />
+
+<style is:global>
+	nav ul a {
+		@apply text-black hover:underline;
+	}
+</style>

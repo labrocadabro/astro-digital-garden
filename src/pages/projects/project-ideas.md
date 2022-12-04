@@ -1,5 +1,6 @@
 ---
 title: Project Ideas
+layout: /src/layouts/NoteLayout.astro
 ---
 
 # Project Ideas
