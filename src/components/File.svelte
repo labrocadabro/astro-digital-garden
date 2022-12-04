@@ -5,7 +5,7 @@
 	name = prettyName(name);
 </script>
 
-<span><a href={path}><i class="fa-regular fa-file"></i> {name}</a></span>
+<span><a href={path}><i class="fa-solid fa-file text-gray-500"></i> {name}</a></span>
 
 <style>
 	span {

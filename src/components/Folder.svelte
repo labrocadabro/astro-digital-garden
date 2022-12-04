@@ -13,7 +13,7 @@
 </script>
 
 <button class:open={expanded} on:click={toggle}>
-	<i class="fa-regular" class:fa-folder={!expanded} class:fa-folder-open={expanded}></i>
+	<i class="fa-regular text-gray-500" class:fa-folder={!expanded} class:fa-folder-open={expanded}></i>
 	{name}
 	<!-- <a href={path}><i class="fa-solid fa-circle-arrow-right"></i></a> -->
 </button>
