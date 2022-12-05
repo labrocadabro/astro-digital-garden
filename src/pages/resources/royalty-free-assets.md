@@ -1,3 +1,8 @@
+---
+title: Royalty Free Assets for Web Development
+layout: /src/layouts/NoteLayout.astro
+---
+
 [Heroicons – Free Open Source SVG Icon Library](https://heroicons.dev/)
 [Material Symbols and Icons - Google Fonts](https://fonts.google.com/icons)
 [Noun Project: Free Icons & Stock Photos for Everything](https://thenounproject.com/)

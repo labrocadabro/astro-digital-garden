@@ -1,5 +1,5 @@
 ---
-title: Code: The Hidden Language of Computer Hardware and Software by Charles Petzold
+title: Code by Charles Petzold
 layout: /src/layouts/NoteLayout.astro
 ---
 
