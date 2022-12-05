@@ -4,7 +4,7 @@
 
 	export let expanded = false;
 	export let name;
-	export let path;
+	// export let path;
 	name = prettyName(name);
 	export let files;
 	function toggle() {
